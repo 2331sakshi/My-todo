@@ -1,47 +1,43 @@
-//selectors
+//SELECTORS
 const todoInput = document.querySelector('.todo-input');
 const todoButton = document.querySelector('.todo-button');
 const todoList = document.querySelector('.todo-list');
 const filterOption = document.querySelector('.filter-todo');
 
-//event listeners
+//EVENT LISTENERS
 document.addEventListener('DOMContentLoaded',getTodos); //if everything is loaded, get todos from storage
 todoButton.addEventListener('click', addTodo);
 todoList.addEventListener('click',deleteCheck);
 filterOption.addEventListener('click',filterTodo);
 
-
-//functions
+//FUNCTIONS
 //create a todo element
 function addTodo(event){
     //prevent form from submitting
     event.preventDefault();
     //todo Div
-    const todoDiv=document.createElement("div");
-    todoDiv.classList.add("todo");
+    const todoDiv=document.createElement("div"); //creates an HTML element of type div
+    todoDiv.classList.add("todo"); //attaching class attribute to the div
     //create LI
     const newTodo = document.createElement('li');
-    newTodo.innerText=todoInput.value;
+    newTodo.innerText=todoInput.value; //accessing HTML content using .innerText
     newTodo.classList.add('todo-item');
-    todoDiv.appendChild(newTodo);
+    todoDiv.appendChild(newTodo); //adds an HTML element
     //add todo into local storage
     saveLocalTodos(todoInput.value);
-    //check mark button
+    //check button
     const completedButton = document.createElement('button');
     completedButton.innerHTML = '<i class="fas fa-check"></i>';
     completedButton.classList.add("complete-btn");
     todoDiv.appendChild(completedButton);
-
-    //check trash button
+    //trash button
     const trashButton = document.createElement("button");
     trashButton.innerHTML = '<i class="fas fa-trash"></i>';
     trashButton.classList.add("trash-btn");
     todoDiv.appendChild(trashButton);
-
     //append to list
-    todoList.appendChild(todoDiv);
-
-    //clear tod input value
+    todoList.appendChild(todoDiv);// adds the HTML element div to the page
+    //clear todo input value in textbox after every addition
     todoInput.value="";
 }
 
@@ -98,13 +94,13 @@ function filterTodo(e){
 
 //save in local storage (local host storage press f12 and go to storage<local storage<host server)
 function saveLocalTodos(todo){
-    //chchk if we already things in the storage
+    //console.log(Navigator.appName);
     let todos;
-    if(localStorage.getItem('todos') === null) //no array present
+    if(localStorage.getItem('todos') === null) 
     {
         todos=[];
     } 
-    else{ //array already present, get the todos array from the local storage 
+    else{  
         todos=JSON.parse(localStorage.getItem('todos')); 
     }
     //add item in the array
@@ -113,21 +109,21 @@ function saveLocalTodos(todo){
     localStorage.setItem('todos',JSON.stringify(todos));
 }
 
-//after refreshing on the screen
+//after refreshing the page, retrieving the updated contents
 function getTodos(){
-    console.log('hello');
+    //console.log('hello');
     //chchk if we already things in the storage
     let todos;
     if(localStorage.getItem('todos') === null) {
          todos=[];
     }   //no array present
          
-    else{ //array already present, get the todos array from the local storage 
+    else{ 
         todos=JSON.parse(localStorage.getItem('todos')); 
     }
     
-    //looping over each todo to display them one by one
-    todos.forEach(function(todo) {
+    //calling a callback function for each todo -> here function is to display them one by one
+    todos.forEach(function(todo) { //defining another function inside the forEach() function call itself
     //todo Div
     const todoDiv=document.createElement("div");
     todoDiv.classList.add("todo");
@@ -156,18 +152,17 @@ function getTodos(){
 }
 
 function removeLocalTodos(todo){
-    //chchk if we already todos in the storage
     let todos;
-    if(localStorage.getItem('todos') === null) //no array present
+    if(localStorage.getItem('todos') === null) 
     {
         todos=[];
-    } else{ //array already present, get the todos array from the local storage 
-        todos=JSON.parse(localStorage.getItem('todos')); 
+    } else{ 
+        todos=JSON.parse(localStorage.getItem('todos')); //retrieving data from storage
     }
     console.log(todos);
 
     const todoItem = todo.children[0].innerText;
     console.log(todoItem);
     todos.splice (todos.indexOf(todoItem), 1); //removing one element from the position indexOf(todoItem)
-    localStorage.setItem('todos',JSON.stringify(todos));
+    localStorage.setItem('todos',JSON.stringify(todos)); //storing data in local storage
 }
